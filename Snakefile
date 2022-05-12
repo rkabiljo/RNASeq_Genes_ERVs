@@ -1,6 +1,6 @@
 configfile: "config.yaml"
 
-#SAMPLES = ["A001_91"]
+SAMPLES = ["A001_91"]
 fastqPath = config["fastqPath"]
 #fastqPath = "/mnt/lustre/groups/herv_project/Brainbank/rnaseq/run1/"
 outPath = config["outPath"]
