@@ -48,9 +48,13 @@ rule qualityFilter:
          outPath  +  "cleaned/{sample}/{sample_s}.fq.gz"
       output:
          outPath  +  "qual/{sample}/{sample_s}.fq.gz" 
+      conda:
+        "envs/bbmap.yaml"
+      resources:
+        mem_mb=16000
       shell:
          """
-         /scratch/users/k1929424/Miniconda3/pkgs/bbmap-38.18-0/bin/bbduk.sh -Xmx4g in={input} out={output} threads=2 qtrim=rl trimq=20 minlen=25 
+         bbduk.sh -Xmx4g in={input} out={output} threads=2 qtrim=rl trimq=20 minlen=25 
          """
 
 rule bwa_mem_align:
