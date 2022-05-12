@@ -34,9 +34,13 @@ rule clipAdapters:
          outPath  +  "interleaved/{sample}/{sample_s}.fq.gz"
      output:
          outPath  +  "cleaned/{sample}/{sample_s}.fq.gz"
+     conda:
+        "envs/bbmap.yaml"
+     resources:
+        mem_mb=16000
      shell:
      	 """
-         /scratch/users/k1929424/Miniconda3/pkgs/bbmap-38.18-0/bin/bbduk.sh -Xmx4g in={input} out={output} ref={config[resources]}original.adapters threads=2 ktrim=r k=21 mink=11 minlen=25 hdist=1 tbo tpe 
+         bbduk.sh -Xmx4g in={input} out={output} ref={config[resources]}original.adapters threads=2 ktrim=r k=21 mink=11 minlen=25 hdist=1 tbo tpe 
          """
 
 rule qualityFilter:
