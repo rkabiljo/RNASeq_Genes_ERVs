@@ -62,8 +62,8 @@ rule bwa_mem_align:
         outPath  +  "qual/{sample}/{sample_s}.fq.gz"
       output:
         outPath + "bwa_mem/{sample}/{sample_s}.sam"
-      envmodules:
-        "apps/bwa/0.7.17-singularity"
+      conda:
+        "envs/bwa.yaml"
       shell:
         """
         bwa mem -t 2 -p {config[ref_hg38]} {input} > {output}
