@@ -73,7 +73,7 @@ rule parse_bam_ERVmap:
       input:
         outPath + "bwa_mem/{sample}/{sample_s}.sam"
       output:
-        outPath + "bwa_mem/{sample}/{sample_s}.bam"
+        outPath + "ervMap/{sample}/{sample_s}.bam"
       envmodules:
         "apps/samtools/0.1.19-singularity"
       shell:
@@ -81,28 +81,21 @@ rule parse_bam_ERVmap:
         samtools view -Sh -F4 {input} > {output}.tmp1
         perl {config[scripts]}/parse_bam.pl {output}.tmp1 > {output}.tmp2
         rm {output}.tmp1
-        samtools view -bSh {output}.tmp2 > {output}
+        samtools view -bSh {output}.tmp2 > {output}.tmp3
         rm {output}.tmp2
+        samtools sort -@ 2 {output}.tmp3 -o {output} > {output} 
+        samtools index {output}
+        rm {output}.tmp3
         """
 
-rule sort_index:
-      input:
-        outPath + "bwa_mem/{sample}/{sample_s}.bam"
-      output:
-        outPath + "sorted/{sample}/{sample_s}.bam"
-      envmodules:
-        "apps/samtools/0.1.19-singularity"
-      shell:
-        """
-        samtools sort -@ 2 {input} -o {output} > {output} 
-        samtools index {output}
-        """
 
 rule ERVmap_counts:
       input:
-        outPath + "sorted/{sample}/{sample_s}.bam"
+        outPath + "ervMap/{sample}/{sample_s}.bam"
       output:
         outPath + "counts/{sample}/{sample_s}.cntfile"
+      conda:
+        "envs/bedtools.yaml"  
       shell:
         """
         bedtools multicov -bams {input} -bed {config[ERVmapBed]} > {output} 
@@ -114,9 +107,11 @@ rule STAR:
       output:
          outPath + "star/{sample}/{sample_s}.Aligned.sortedByCoord.out.bam",
          outPath + "star/{sample}/{sample_s}.Aligned.sortedByCoord.out.bam.bai"
-      envmodules:
-         "apps/star/2.7.3a",
-         "apps/samtools/0.1.19-singularity"
+      conda:
+        "envs/star.yaml"
+      threads: 8
+      resources:
+        mem_mb=80000
       shell:
          """
          STAR --runThreadN 6 --genomeDir {config[genomeDir]} --sjdbGTFfile {config[gtf]} --sjdbOverhang 149 --readFilesIn {input} --outSAMtype BAM SortedByCoordinate --readFilesCommand zcat --outFileNamePrefix {wildcards.sample}. --outStd BAM_SortedByCoordinate > {output[0]}
@@ -129,11 +124,9 @@ rule HTseqCount:
          outPath + "star/{sample}/{sample_s}.Aligned.sortedByCoord.out.bam"
       output:
          outPath + "htseq/{sample}/{sample_s}.htseq.cnt"
-      envmodules:
-        "apps/samtools/0.1.19-singularity"
+      conda:
+         "envs/htseq.yaml"
       shell:
          """
-         pip install --upgrade numpy
-         #samtools view {input} | python -m HTSeq.scripts.count -f sam -s no - {config[gtf]} > {output}
-         python -m HTSeq.scripts.count -f bam -s no {input} {config[gtf]} > {output}
+         samtools view {input} | htseq-count -f sam -s no - {config[gtf]} > {output}
          """
