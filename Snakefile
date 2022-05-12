@@ -74,8 +74,8 @@ rule parse_bam_ERVmap:
         outPath + "bwa_mem/{sample}/{sample_s}.sam"
       output:
         outPath + "ervMap/{sample}/{sample_s}.bam"
-      envmodules:
-        "apps/samtools/0.1.19-singularity"
+      conda:
+         "envs/samtools.yaml"
       shell:
         """
         samtools view -Sh -F4 {input} > {output}.tmp1
