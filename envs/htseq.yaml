@@ -2,6 +2,7 @@ channels:
   - bioconda
    
 dependencies:
-  - samtools=1.19
+  - samtools
+  - pip
   - pip:
     - HTSeq
