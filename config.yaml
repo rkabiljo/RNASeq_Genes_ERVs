@@ -1,4 +1,4 @@
-SAMPLES: ["A001_16_S44"]
+SAMPLES: ["A001_16"]
 fastqPath: /mnt/lustre/groups/projectmine/testRNAseq/fastq/
 outPath: /mnt/lustre/groups/projectmine/testRNAseq/output/
 ref_hg38: /mnt/lustre/groups/herv_project/UCSC_hg38/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz
