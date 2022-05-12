@@ -20,9 +20,13 @@ rule interleave:
     output: 
         outPath  +  "interleaved/{sample}/{sample_s}.fq.gz"
         #"/mnt/lustre/groups/herv_project/snakemake/ervmap/interleaved/{sample}.fastq"
+    conda:
+        "envs/bbmap.yaml"
+    resources:
+        mem_mb=16000
     shell:
         """
-        /scratch/users/k1929424/Miniconda3/pkgs/bbmap-38.18-0/bin/reformat.sh in1={input[0]} in2={input[1]} out={output}
+        reformat.sh in1={input[0]} in2={input[1]} out={output}
         """
 
 rule clipAdapters:
