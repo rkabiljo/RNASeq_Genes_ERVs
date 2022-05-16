@@ -1,5 +1,5 @@
 # RNASeqHERV
-RNAseq pipeline adapted from Jones et al 2021, <i>A HML6 endogenous retrovirus on chromosome 3 is upregulated in amyotrophic lateral sclerosis motor cortex </i>
+RNAseq pipeline to quantify genes and ERVs in RNAseq samples
 
 <div align="center">
     <img src="RNAseq.jpg" width="200px"</img> 
@@ -7,21 +7,23 @@ RNAseq pipeline adapted from Jones et al 2021, <i>A HML6 endogenous retrovirus o
 
 
 # Description
-This pipeline aims to recreate the differential expression analysis described in https://www.nature.com/articles/s41598-021-93742-3.pdf
+This pipeline aims to recreate the differential expression analysis described in Jones et al (2021) https://www.nature.com/articles/s41598-021-93742-3.pdf
 
 # Steps
 
 1.Interleave fastqs <br>
 2.Trim adapters  <br>
-3. Quality Control  <br>
+3.Quality Control  <br>
 4.BWA MEM align  <br>
 5.Parse the alignments using adapted ERVmap scripts  <br>
-6.STAR align (output of Step 3)  <br>
-7.HTseq count   <br>
+6.Quantify ERV transcripts <br>
+7.STAR align (output of Step 3)  <br>
+8.HTseq count - quantify gene transcripts   <br>
 
 # Dependencies
 Conda environment is specified for each step and no tools need to be installed.
-##
+
+## Reference files
 
 Reference genomes and indices for STAR and for bwa need to be set up and specified in the config.yaml file <br>
 HERV locations annotation file also needs to be specified in the config.yaml
