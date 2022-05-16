@@ -1,5 +1,5 @@
 # RNASeqHERV
-RNAseq pipeline adapted from Ashley Jones 
+RNAseq pipeline adapted from Jones et al 2021, <i>A HML6 endogenous retrovirus on chromosome 3 is upregulated in amyotrophic lateral sclerosis motor cortex </i>
 
 <div align="center">
     <img src="RNAseq.jpg" width="200px"</img> 
