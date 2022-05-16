@@ -128,5 +128,5 @@ rule HTseqCount:
          "envs/htseq.yaml"
       shell:
          """
-         samtools view {input} | htseq-count -f sam -s no - {config[gtf]} > {output}
+         python -m HTSeq.scripts.count -f bam -s no {input} {config[gtf]} > {output}
          """
