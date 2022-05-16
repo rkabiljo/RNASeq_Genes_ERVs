@@ -84,3 +84,9 @@ for filepath in glob.iglob('/mnt/lustre/groups/projectmine/RNAseqRun*hg18/counts
   perl scripts/merge.pl 3 6 cntfile ./output/erv > ./output/erv/merged_erv.txt
   perl scripts/merge.pl 0 1 htseq.cnt ./output/cellular > ./output/cellular/merged_cellular.txt
 ```
+# Normalize from file - according to the instructions provided at https://github.com/mtokuyama/ERVmap
+
+```
+perl scripts/normalize_deseq.r  ./output/cellular/merged_cellular.txt ./output/cellular/normalized_cellular.txt ./output/cellular/normalized_factors.txt
+perl scripts/normalize_with_file.pl ./output/cellular/normalized_factors.txt ./output/erv/merged_erv.txt > ./output/normalized_erv_counts.txt
+```
