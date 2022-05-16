@@ -20,22 +20,27 @@ This pipeline aims to recreate the differential expression analysis described in
 7.HTseq count   <br>
 
 # Dependencies
-When ran on Rosalind, environment modules are used and will automatically be loaded (--use-envmodules should be used when invoking snakemake). All other dependencies (e.g. reference genomes, HERV locations annotation, etc.) are in hervk_group folders and you will need permissions to these folders.
+Conda environment is specified for each step and no tools need to be installed.
+##
 
-# Execution on Rosalind
+Reference genomes and indices for STAR and for bwa need to be set up and specified in the config.yaml file <br>
+HERV locations annotation file also needs to be specified in the config.yaml
+<br>I CAN PROVIDE THESE 
+
+# Execution
 
 Provided that the targets are specified in rule all, run the pipeline with:
 
 ```
-nohup snakemake --use-conda --use-envmodules --cores <HOWEVER_MANY_SAMPLES> --cluster "sbatch -p brc --mem-per-cpu=35G" 
+nohup snakemake --use-conda --cores <HOWEVER_MANY_SAMPLES> --cluster "sbatch -p PARTITION_NAME --mem-per-cpu=35G" 
 ```
 
 ## Example of targets requested in rule 'all'
  ```
 rule all:
     input:
-        expand(outPath + "counts/{sample}/{sample_s}.cntfile", zip, sample=config["SAMPLES"], sample_s=config["SAMPLES_WITH_S_NUM"]), 
-        expand(outPath  + "htseq/{sample}/{sample_s}.htseq.cnt", zip, sample=config["SAMPLES"], sample_s=config["SAMPLES_WITH_S_NUM"])
+        expand(outPath + "counts/{sample}.cntfile", sample=config["SAMPLES"]), 
+        expand(outPath  + "htseq/{sample}.htseq.cnt", sample=config["SAMPLES"])
   ```
   This will produce counts for ERVs (.cntfile) and counts for cellular data (.htseq.cnt) for each sample
   
@@ -44,7 +49,7 @@ rule all:
   # After running the pipeline - merge counts for ERVs and for cellular
   
   Step1: <br>
-  copy to one directory using python script, remove with sed these extra few lines in the cellular counts files. Change the paths to reflect your own: <br>
+  copy to one directory using python script, remove with sed these extra few lines in the cellular counts files. CHANGE THE PATHS TO REFLECT YOUR OWN OR SIMPLY COPY THAT IN UNIX: <br>
   
   ```
 import glob
