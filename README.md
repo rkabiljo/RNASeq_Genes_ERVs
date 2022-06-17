@@ -88,6 +88,7 @@ for filepath in glob.iglob('/mnt/lustre/groups/projectmine/RNAseqRun*hg18/counts
 according to the instructions provided at https://github.com/mtokuyama/ERVmap
 
 ```
-perl scripts/normalize_deseq.r  ./output/cellular/merged_cellular.txt ./output/cellular/normalized_cellular.txt ./output/cellular/normalized_factors.txt
+Rscript scripts/normalize_deseq.r  ./output/cellular/merged_cellular.txt ./output/cellular/normalized_cellular.txt ./output/cellular/normalized_factors.txt
 perl scripts/normalize_with_file.pl ./output/cellular/normalized_factors.txt ./output/erv/merged_erv.txt > ./output/normalized_erv_counts.txt
 ```
+Make sure that the merged_erv.txt matrix has the word 'gene' in top left corner as the column header, it is hard coded in the script normalize_with_file.pl
