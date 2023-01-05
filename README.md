@@ -87,6 +87,8 @@ for filepath in glob.iglob('/mnt/lustre/groups/projectmine/RNAseqRun*hg18/counts
 # Normalize from file
 according to the instructions provided at https://github.com/mtokuyama/ERVmap
 
+<br>IMPORTANT: If the downstream analysis is differential expression in DESeq2, it is preferrable to skip this step, to use the raw matrix, and to perform the same normalisation in R, using sizeFactor column previously obtained by EstimateSizeFactors on cellular counts, like in normalze_deseq.r script. I also derive surrogate variable from cellular counts only and use that as a covariate in the DEseq function. The actual DEseq can then be run on the matrix in which gene counts and erv counts are merged - the two matrices pasted together. 
+
 ```
 Rscript scripts/normalize_deseq.r  ./output/cellular/merged_cellular.txt ./output/cellular/normalized_cellular.txt ./output/cellular/normalized_factors.txt
 perl scripts/normalize_with_file.pl ./output/cellular/normalized_factors.txt ./output/erv/merged_erv.txt > ./output/normalized_erv_counts.txt
